@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miguel Soto Blanco - Portafolio</title>
+    <style>
+        :root {
+            /* MODO CLARO (Por defecto) */
+            --bg-color: #FFFFFF; 
+            --text-color: #1A1A1A; 
+            --text-light: #737373; 
+            --nav-link-color: #1B2430; 
+            --border-color: rgba(0, 0, 0, 0.2); 
+            --shadow-color: rgba(0, 0, 0, 0.08); 
+            --font-main: 'Consolas', 'Monaco', 'Courier New', monospace; 
+        }
+
+        [data-theme="dark"] {
+            /* MODO OSCURO */
+            --bg-color: #1B2430; 
+            --text-color: #F8F9FA; 
+            --text-light: #A0AEC0; 
+            --nav-link-color: #F8F9FA; 
+            --border-color: rgba(255, 255, 255, 0.2); 
+            --shadow-color: rgba(0, 0, 0, 0.4); 
+            --focus-color: #F8F9FA; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow: hidden; 
+            transition: background-color 0.5s ease, color 0.5s ease; 
+        }
+
+        .scroll-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+        .scroll-container::-webkit-scrollbar {
+            display: none; 
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding-top: 3rem;
+            padding-bottom: 2rem;
+            z-index: 100;
+            background-color: var(--bg-color); 
+            transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1), background-color 0.5s ease;
+        }
+
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 3rem;
+            right: 4rem;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 26px;
+            height: 26px;
+            transition: transform 0.3s ease, color 0.5s ease;
+            z-index: 200;
+        }
+        
+        .theme-toggle-btn:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        .theme-toggle-btn svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo img {
+            height: 135px; 
+            width: auto;
+            margin: 0 auto 2.5rem auto; 
+            display: block; 
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+        }
+
+        [data-theme="dark"] .logo img {
+            transform: scale(1.05); 
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 550px; 
+            margin: 0 auto;
+        }
+
+        nav li {
+            flex: 1; 
+            text-align: center; 
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--nav-link-color); 
+            font-size: 0.9rem;
+            font-weight: 400; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-color);
+        }
+
+        nav a:focus {
+            outline: 2px solid var(--nav-link-color); 
+            outline-offset: 6px;
+            border-radius: 2px;
+        }
+
+        [data-theme="dark"] nav a:focus {
+            outline: 2px solid var(--focus-color); 
+        }
+
+        [data-theme="dark"] nav a:hover {
+            color: var(--text-light); 
+        }
+
+        section {
+            min-width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            padding: 22rem 5rem 6rem 5rem; 
+            overflow-y: auto; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scrollbar-width: none; 
+        }
+        section::-webkit-scrollbar { display: none; }
+
+        /* GALERÍA */
+        .gallery-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery {
+            column-count: 3;
+            column-gap: 2rem;
+            width: 100%;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+            break-inside: avoid;
+            display: block;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: transform 0.4s ease, box-shadow 0.5s ease, opacity 0.4s ease;
+            cursor: pointer; 
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Clase para ocultar imágenes al inicio */
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        /* Contenedor del botón "Ver más" */
+        .show-more-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        /* SOBRE MÍ */
+        .bio-container {
+            display: flex;
+            align-items: flex-start; 
+            gap: 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .bio-image {
+            flex: 0 0 300px;
+        }
+
+        .bio-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            transition: box-shadow 0.5s ease;
+        }
+
+        .image-caption {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 0.8rem;
+            font-style: italic;
+        }
+
+        .bio-text {
+            flex: 1;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .bio-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .bio-text a {
+            color: var(--text-color);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: color 0.5s ease;
+        }
+
+        .bio-text a:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            text-decoration: none;
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(5px); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 2px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.1);
+        }
+
+        /* CONTACTO */
+        .contact-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            font-family: var(--font-main);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            border-radius: 2px;
+            transition: border-color 0.3s ease, color 0.5s ease;
+        }
+
+        .form-group input::placeholder, 
+        .form-group textarea::placeholder {
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+
+        .submit-btn {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .social-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 100;
+            background-color: var(--bg-color); 
+            padding: 1.5rem 0;
+            transition: background-color 0.5s ease;
+        }
+
+        .social-fixed a {
+            display: block;
+            width: 24px;
+            height: 24px;
+            color: var(--text-color);
+            transition: transform 0.3s ease, opacity 0.3s ease, color 0.5s ease;
+            opacity: 0.7;
+        }
+
+        .social-fixed a:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        .social-fixed svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        @media (max-width: 900px) {
+            .bio-container {
+                flex-direction: column;
+                align-items: center; 
+                text-align: center;
+                gap: 2rem;
+            }
+            .bio-text {
+                text-align: center;
+            }
+            .gallery {
+                column-count: 2;
+            }
+            nav ul {
+                max-width: 100%; 
+            }
+            .theme-toggle-btn {
+                top: 2rem;
+                right: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gallery {
+                column-count: 1;
+            }
+            section {
+                padding: 18rem 2rem 6rem 2rem;
+            }
+            .logo img {
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambiar modo de color">
+            <svg id="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="sun-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+
+        <div class="logo">
+            <a href="#arte" aria-label="Volver a la galería de Arte">
+                <img id="main-logo" src="D:\PROYECTOS DEV\web_arte\img\msb_blue.png" alt="Miguel Soto Blanco Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#arte">Arte</a></li>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="scroll-container">
+
+        <!-- PÁGINA 1: Arte -->
+        <section id="arte" class="scroll-section">
+            <div class="gallery-wrapper">
+                <div class="gallery" id="gallery-container">
+                    <!-- 18 imágenes en total -->
+                    <img src="D:\PROYECTOS DEV\web_arte\img\1.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\2.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\3.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\4.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\5.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\6.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\7.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\8.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\9.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\10.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\11.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\12.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\13.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\14.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\15.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\16.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\17.jpg" alt="Ilustración" class="gallery-item">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\18.jpg" alt="Ilustración" class="gallery-item">
+                </div>
+                
+                <div class="show-more-container">
+                    <button id="show-more-btn" class="submit-btn">Ver más dibujos</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA 2: Sobre mí -->
+        <section id="sobre-mi" class="scroll-section">
+            <div class="bio-container">
+                <div class="bio-image">
+                    <img src="D:\PROYECTOS DEV\web_arte\img\profile.jpg" alt="Foto de Miguel Soto Blanco haciendo cosplay de Eren">
+                    <p class="image-caption">* Sí, el de la foto soy yo haciendo cosplay de Eren Jaeger. ¡Otra de mis aficiones!</p>
+                </div>
+                <div class="bio-text">
+                    <p>Soy Miguel Soto Blanco. Nací el 11 de diciembre de 1997 y vivo en Algeciras, Cádiz.</p>
+                    <p>Mi profesión principal es desarrollador, pero el dibujo es algo que siempre he retomado a lo largo de los años, aunque no sea constante. Utilizo mi iPad y Procreate como herramientas principales para dibujar por hobby.</p>
+                    <p>Además de la ilustración, mis mayores aficiones son los videojuegos, mi guitarra eléctrica, el fútbol y el coleccionismo.</p>
+                    <p>Tengo un grado en diseño gráfico y un <a href="D:\PROYECTOS DEV\web_arte\img\DIPLOMA_JOSO_Miguel_Soto_Blanco.pdf" target="_blank">certificado</a> en ilustración digital con Procreate.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA 3: Contacto -->
+        <section id="contacto" class="scroll-section">
+            <div class="contact-container">
+                <form action="https://formspree.io/f/mzdwnkon" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre *</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" placeholder="Escribe tu dirección de correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje *</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje" required></textarea>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="submit-btn">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="social-fixed">
+        <a href="https://linkedin.com/in/miguel-soto-blanco-5b3599269" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="https://github.com/miguelsb-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" aria-label="Cerrar visor">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagen ampliada">
+    </div>
+
+    <script>
+        // 1. NAVEGACIÓN HORIZONTAL FLUIDA
+        document.querySelectorAll('nav a, .logo a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                document.querySelector('.scroll-container').scrollTo({
+                    left: targetSection.offsetLeft,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 2. LÓGICA MODO NOCHE Y CAMBIO DE LOGO
+        const themeToggle = document.getElementById('theme-toggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        const mainLogo = document.getElementById('main-logo');
+        const root = document.documentElement;
+
+        const logoBlue = "D:\\PROYECTOS DEV\\web_arte\\img\\msb_blue.png";
+        const logoWhite = "D:\\PROYECTOS DEV\\web_arte\\img\\msb_white.png";
+
+        themeToggle.addEventListener('click', () => {
+            if (root.getAttribute('data-theme') === 'dark') {
+                root.removeAttribute('data-theme');
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+                mainLogo.style.opacity = '0';
+                setTimeout(() => {
+                    mainLogo.src = logoBlue;
+                    mainLogo.style.opacity = '1';
+                }, 150);
+            } else {
+                root.setAttribute('data-theme', 'dark');
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+                mainLogo.style.opacity = '0';
+                setTimeout(() => {
+                    mainLogo.src = logoWhite;
+                    mainLogo.style.opacity = '1';
+                }, 150);
+            }
+        });
+
+        // 3. SMART SCROLL (Ocultar cabecera al bajar por las imágenes)
+        const header = document.getElementById('main-header');
+        const sections = document.querySelectorAll('.scroll-section');
+        
+        sections.forEach(section => {
+            let lastScrollY = section.scrollTop;
+            
+            section.addEventListener('scroll', () => {
+                const currentScrollY = section.scrollTop;
+                
+                if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                    header.classList.add('header-hidden');
+                } else if (currentScrollY < lastScrollY) {
+                    header.classList.remove('header-hidden');
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+        });
+
+        // 4. LÓGICA DE GALERÍA: DESORDENAR, OCULTAR Y BOTÓN "VER MÁS"
+        const galleryContainer = document.getElementById('gallery-container');
+        let galleryItemsArr = Array.from(document.querySelectorAll('.gallery-item'));
+        const showMoreBtn = document.getElementById('show-more-btn');
+        const initialShowCount = 6; // Número de imágenes a mostrar al inicio
+
+        // Algoritmo Fisher-Yates para desordenar el array
+        for (let i = galleryItemsArr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [galleryItemsArr[i], galleryItemsArr[j]] = [galleryItemsArr[j], galleryItemsArr[i]];
+        }
+
+        // Vaciar contenedor y volver a añadir desordenadas, ocultando las que sobran
+        galleryContainer.innerHTML = '';
+        galleryItemsArr.forEach((item, index) => {
+            if (index >= initialShowCount) {
+                item.classList.add('hidden');
+            }
+            galleryContainer.appendChild(item);
+        });
+
+        // Evento del botón para mostrar el resto
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', () => {
+                galleryItemsArr.forEach(item => {
+                    item.classList.remove('hidden');
+                });
+                showMoreBtn.style.display = 'none'; // Desaparece tras pulsarlo
+            });
+        }
+
+        // 5. LÓGICA DEL VISOR DE IMÁGENES (LIGHTBOX)
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+
+        // Volvemos a seleccionar los items después de haberlos desordenado e insertado
+        const currentGalleryItems = document.querySelectorAll('.gallery-item');
+
+        currentGalleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                lightboxImg.src = item.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
