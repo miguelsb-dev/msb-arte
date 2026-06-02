@@ -22,10 +22,6 @@ Puedes visitar el proyecto desplegado aquí: [https://msb-arte.infinityfreeapp.c
 
 Es un sitio estático. Solo necesitas clonar el repositorio y abrir el archivo `index.html` en tu navegador.
 
-├── css/            # Estilos y diseño
-├── img/            # Galería de imágenes y assets
-└── index.html      # Estructura principal
-
 Miguel Soto Blanco
 Desarrollador Web.
 
