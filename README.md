@@ -1,28 +1,29 @@
-# MSB-Arte
+# 🎨 MSB-Arte - Portfolio de Ilustración
 
-Portfolio personal de ilustraciones y trabajos artísticos. Un proyecto enfocado en la organización y visualización de galería personal con un diseño minimalista y funcional.
+MSB-Arte es un portfolio web personal enfocado en la organización y visualización de trabajos artísticos. Desarrollado con un enfoque minimalista y funcional, prioriza el rendimiento y la experiencia de usuario al explorar la galería de imágenes.
 
-## Demo
-Puedes visitar el proyecto desplegado aquí: [https://msb-arte.infinityfreeapp.com/](https://msb-arte.infinityfreeapp.com/)
+Puedes visitar el proyecto en vivo aquí: **[MSB-Arte - Galería Web](https://msb-arte.infinityfreeapp.com/)**
 
-## Características
+## ✨ Funcionalidades Principales
 
-* **Responsive Design:** Adaptado a cualquier dispositivo y resolución.
-* **Dark/Light Mode:** Selector de tema integrado.
-* **Lightbox:** Visor de imágenes para una experiencia de visualización inmersiva.
-* **Galería dinámica:** Gestión de carga para mantener la fluidez de la interfaz.
+* **Galería Dinámica:** Gestión eficiente de la carga de imágenes para mantener la fluidez y velocidad de la interfaz, incluso en galerías extensas.
+* **Visor Inmersivo (Lightbox):** Sistema integrado de visualización a pantalla completa para explorar cada ilustración en detalle sin necesidad de abrir nuevas pestañas.
+* **Temas Visuales (Dark/Light Mode):** Selector de tema que modifica la paleta de colores de toda la aplicación de forma dinámica, adaptándose a las preferencias de visualización del usuario.
+* **Diseño Responsivo:** Interfaz completamente elástica y adaptativa construida desde cero, garantizando una visualización perfecta en móviles, tablets y monitores de escritorio.
 
-## Stack Tecnológico
+## 🛠️ Tecnologías Utilizadas
 
-* HTML5
-* CSS3 (Grid/Flexbox, Variables CSS)
-* JavaScript (Vanilla)
+* **Frontend:** HTML5, JavaScript (Vanilla).
+* **Estilos:** CSS3 nativo (implementación de CSS Grid, Flexbox y Variables CSS dinámicas).
+* **Hosting:** Desplegado mediante servidor web estático en InfinityFree.
 
-## Instalación
+## 🚀 Instalación y Uso (Desarrollo)
 
-Es un sitio estático. Solo necesitas clonar el repositorio y abrir el archivo `index.html` en tu navegador.
+Al ser un sitio web estático puro, no requiere instalaciones complejas, empaquetadores ni bases de datos locales.
 
-Miguel Soto Blanco
-Desarrollador Web.
+1. Clona este repositorio en tu equipo local.
+2. Abre el archivo `index.html` en cualquier navegador web moderno.
 
-Proyecto personal desarrollado para la gestión de contenido visual.
+---
+
+**Miguel Soto Blanco** *Desarrollador Web*
